@@ -13,9 +13,8 @@ Latest commit to GitHub branch 'master'.
 **Usage**
 ```
 docker run -d \
-    -p <host port>:8000 \
-    -p <host port>:25565 \
-    -p <host port>:19132/udp \
+    -p <host port for crafty web ui>:8000 \
+    -p <host port range for minecraft servers>:25565-25575 \
     --name=<container name> \
     -v <path for config files>:/config \
     -v /etc/localtime:/etc/localtime:ro \
@@ -37,8 +36,7 @@ Credentials are shown on first run in the log file ```/config/supervisord.log```
 ```
 docker run -d \
     -p 8000:8000 \
-    -p 25565:25565 \
-    -p 19132:19132/udp \
+    -p 25565-25575:25565-25575 \
     --name=crafty \
     -v /apps/docker/crafty:/config \
     -v /etc/localtime:/etc/localtime:ro \

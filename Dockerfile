@@ -29,9 +29,6 @@ VOLUME /config
 # expose port range 25565-25575 for minecraft servers
 EXPOSE 25565-25575
 
-# expose port for minecraft
-EXPOSE 19132/udp
-
 # expose port for crafty web ui
 EXPOSE 8000
 
