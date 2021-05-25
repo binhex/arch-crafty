@@ -26,8 +26,8 @@ RUN chmod +x /root/*.sh && \
 # map /config to host defined config path (used to store configuration from app)
 VOLUME /config
 
-# expose port for minecraft
-EXPOSE 25565
+# expose port range 25565-25575 for minecraft servers
+EXPOSE 25565-25575
 
 # expose port for minecraft
 EXPOSE 19132/udp
