@@ -46,7 +46,6 @@ fi
 ####
 
 # define aur packages
-aur_packages=""
 aur_packages="java-openjdk-bin"
 
 # call aur install script (arch user repo)
