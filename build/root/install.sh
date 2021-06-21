@@ -35,7 +35,7 @@ fi
 ####
 
 # define pacman packages
-pacman_packages="python-pip jdk8-openjdk jre8-openjdk-headless jre11-openjdk-headless base-devel"
+pacman_packages="jdk8-openjdk jre8-openjdk-headless jre11-openjdk-headless base-devel"
 
 # install compiled packages using pacman
 if [[ ! -z "${pacman_packages}" ]]; then
@@ -62,23 +62,22 @@ github.sh --install-path "${install_path}" --github-owner 'RMDC-Crafty' --github
 # custom
 ####
 
-cd "${install_path}"
-
-# install virtualenv, create env and activate
-python3 -m pip install --user virtualenv
-python3 -m venv env
-source /opt/crafty/env/bin/activate
-
-# install python modules as per requirements.txt in virtualenv
-pip install -r "${install_path}/requirements.txt"
+# fix up requirements by bumping requests module - see open issue https://github.com/RMDC-Crafty/crafty/issues/33
+sed -i 's~requests==2.22.0~requests==2.25.1~g' '/opt/crafty/requirements.txt'
 
 # alter example paths for crafty startup wizard (step1)
 sed -i -E 's~/var/opt/minecraft/server~/config/crafty/servers~g' '/opt/crafty/app/web/templates/setup/step1.html'
 
+# python
+####
+
+# source in pip.sh to install python modules required for app
+source /usr/local/bin/pip.sh "${install_path}"
+
 # container perms
 ####
 
-# define comma separated list of paths 
+# define comma separated list of paths
 install_paths="/opt/crafty,/home/nobody"
 
 # split comma separated string into list for install paths
@@ -108,7 +107,7 @@ cat <<EOF > /tmp/permissions_heredoc
 previous_puid=\$(cat "/root/puid" 2>/dev/null || true)
 previous_pgid=\$(cat "/root/pgid" 2>/dev/null || true)
 
-# if first run (no puid or pgid files in /tmp) or the PUID or PGID env vars are different 
+# if first run (no puid or pgid files in /tmp) or the PUID or PGID env vars are different
 # from the previous run then re-apply chown with current PUID and PGID values.
 if [[ ! -f "/root/puid" || ! -f "/root/pgid" || "\${previous_puid}" != "\${PUID}" || "\${previous_pgid}" != "\${PGID}" ]]; then
 
