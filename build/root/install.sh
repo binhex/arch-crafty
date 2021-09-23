@@ -72,7 +72,7 @@ sed -i -E 's~/var/opt/minecraft/server~/config/crafty/servers~g' '/opt/crafty/ap
 ####
 
 # source in pip.sh to install python modules required for app
-source /usr/local/bin/pip.sh "${install_path}"
+source /usr/local/bin/pip.sh --install-path "${install_path}" --log-level 'WARN'
 
 # container perms
 ####
