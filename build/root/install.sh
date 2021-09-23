@@ -57,7 +57,7 @@ source aur.sh
 install_path="/opt/crafty"
 
 # download crafty from branch master (no releases at this time)
-github.sh --install-path "${install_path}" --github-owner 'RMDC-Crafty' --github-repo 'crafty' --query-type 'branch' --download-branch 'master'
+github.sh --install-path "${install_path}" --github-owner 'binhex' --github-repo 'crafty' --query-type 'branch' --download-branch 'master'
 
 # custom
 ####
