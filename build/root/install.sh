@@ -35,7 +35,7 @@ fi
 ####
 
 # define pacman packages
-pacman_packages="jdk8-openjdk jre8-openjdk-headless jre11-openjdk-headless base-devel"
+pacman_packages="jre8-openjdk-headless jre11-openjdk-headless"
 
 # install compiled packages using pacman
 if [[ ! -z "${pacman_packages}" ]]; then
@@ -133,6 +133,28 @@ rm /tmp/permissions_heredoc
 ####
 
 cat <<'EOF' > /tmp/envvars_heredoc
+export JAVA_VERSION=$(echo "${JAVA_VERSION}" | sed -e 's~^[ \t]*~~;s~[ \t]*$~~')
+if [[ ! -z "${JAVA_VERSION}" ]]; then
+	echo "[info] JAVA_VERSION defined as '${JAVA_VERSION}'" | ts '%Y-%m-%d %H:%M:%.S'
+else
+	echo "[info] JAVA_VERSION not defined,(via -e JAVA_VERSION), defaulting to Java version '16'" | ts '%Y-%m-%d %H:%M:%.S'
+	export JAVA_VERSION="16"
+fi
+
+if [[ "${JAVA_VERSION}" == "8" ]]; then
+	ln -fs /usr/lib/jvm/java-8-openjdk/jre/bin/java /usr/bin/java
+	archlinux-java set java-8-openjdk/jre
+elif [[ "${JAVA_VERSION}" == "11" ]]; then
+	ln -fs /usr/lib/jvm/java-11-openjdk/bin/java /usr/bin/java
+	archlinux-java set java-11-openjdk
+elif [[ "${JAVA_VERSION}" == "16" ]]; then
+	ln -fs /usr/lib/jvm/java-16-openjdk/bin/java /usr/bin/java
+	archlinux-java set java-16-openjdk
+else
+	echo "[warn] Java version '${JAVA_VERSION}' not installed, defaulting to Java version '16" | ts '%Y-%m-%d %H:%M:%.S'
+	ln -fs /usr/lib/jvm/java-16-openjdk/bin/java /usr/bin/java
+	archlinux-java set java-16-openjdk
+fi
 EOF
 
 # replace env vars placeholder string with contents of file (here doc)

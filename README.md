@@ -18,6 +18,7 @@ docker run -d \
     --name=<container name> \
     -v <path for config files>:/config \
     -v /etc/localtime:/etc/localtime:ro \
+    -e JAVA_VERSION=<8|11|16> \
     -e UMASK=<umask for created files> \
     -e PUID=<uid for user> \
     -e PGID=<gid for user> \
@@ -40,6 +41,7 @@ docker run -d \
     --name=crafty \
     -v /apps/docker/crafty:/config \
     -v /etc/localtime:/etc/localtime:ro \
+    -e JAVA_VERSION=16 \
     -e UMASK=000 \
     -e PUID=0 \
     -e PGID=0 \
