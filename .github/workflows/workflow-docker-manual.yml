@@ -36,7 +36,9 @@ jobs:
         shell: bash
         run: |
           test_tag_name=$(date +%Y%m%d%H%M%S)
-          echo "::set-output name=test_tag_name::${test_tag_name}"
+          echo "Test tag name is '${test_tag_name}'"
+          echo "::set-output name=test_tag_name::$test_tag_name"
+        id: test_tag_name
       - name: Build Docker image and tag
         uses: nick-invision/retry@v2.4.0
         with:
