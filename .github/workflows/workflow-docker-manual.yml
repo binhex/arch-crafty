@@ -46,6 +46,7 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 120
           command: |
+            echo "tag name for build will be '${{ steps.test_tag_name.outputs.tag }}'"
             docker build \
               --tag ${{ github.repository }}:${{ steps.test_tag_name.outputs.tag }} \
               --tag ${{ github.repository }}:${{ github.event.inputs.tags }} \
