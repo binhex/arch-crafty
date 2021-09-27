@@ -36,7 +36,7 @@ jobs:
         shell: bash
         run: |
           date_time=$(date +%Y%m%d%H%M%S)
-          echo "Test tag name is '${date_time}'"
+          echo "[debug] Generated test tag name is '${date_time}'"
           echo "::set-output name=date_time::$date_time"
         id: generate_temporary_tag_name
       - name: Build Docker image and tag
@@ -46,7 +46,6 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 120
           command: |
-            echo "tag name for build will be '${{ steps.generate_temporary_tag_name.outputs.date_time }}'"
             docker build \
               --tag ${{ github.repository }}:${{ steps.generate_temporary_tag_name.outputs.date_time }} \
               --tag ${{ github.repository }}:${{ github.event.inputs.tags }} \
@@ -60,7 +59,7 @@ jobs:
           git_clone_scripts_repo="https://github.com/binhex/scripts.git"
 
           git clone "${git_clone_scripts_repo}" "${git_clone_scripts_dest}"
-          "${git_clone_scripts_dest}/shell/arch/docker/testrunner.sh" --image-name "ghcr.io/${{ github.repository }}:${{ steps.test_tag_name.outputs.tag }}" --container-ports '-p 9999:8000' --network-type 'bridge' --protocol 'https'
+          "${git_clone_scripts_dest}/shell/arch/docker/testrunner.sh" --image-name "ghcr.io/${{ github.repository }}:${{ steps.generate_temporary_tag_name.outputs.date_time }}" --container-ports '-p 9999:8000' --network-type 'bridge' --protocol 'https'
       - name: Push Docker image to Docker Hub
         uses: nick-invision/retry@v2.4.0
         with:
