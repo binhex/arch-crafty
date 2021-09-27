@@ -38,7 +38,7 @@ jobs:
           test_tag_name=$(date +%Y%m%d%H%M%S)
           echo "Test tag name is '${test_tag_name}'"
           echo "::set-output name=test_tag_name::$test_tag_name"
-        id: test_tag_name
+        id: test_tag_name_id
       - name: Build Docker image and tag
         uses: nick-invision/retry@v2.4.0
         with:
@@ -46,11 +46,11 @@ jobs:
           max_attempts: 3
           retry_wait_seconds: 120
           command: |
-            echo "tag name for build will be '${{ steps.test_tag_name.outputs.tag }}'"
+            echo "tag name for build will be '${{ steps.test_tag_name_id.outputs.tag }}'"
             docker build \
-              --tag ${{ github.repository }}:${{ steps.test_tag_name.outputs.tag }} \
+              --tag ${{ github.repository }}:${{ steps.test_tag_name_id.outputs.tag }} \
               --tag ${{ github.repository }}:${{ github.event.inputs.tags }} \
-              --tag ghcr.io/${{ github.repository }}:${{ steps.test_tag_name.outputs.tag }} \
+              --tag ghcr.io/${{ github.repository }}:${{ steps.test_tag_name_id.outputs.tag }} \
               --tag ghcr.io/${{ github.repository }}:${{ github.event.inputs.tags }} \
               .
       - name: Run Tests
