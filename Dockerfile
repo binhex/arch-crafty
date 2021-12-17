@@ -33,6 +33,9 @@ EXPOSE 25565-25575
 # expose port for crafty web ui
 EXPOSE 8000
 
+# Security Patch for CVE-2021-44228
+ENV LOG4J_FORMAT_MSG_NO_LOOKUPS=true
+
 # set permissions
 #################
 
