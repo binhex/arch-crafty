@@ -21,5 +21,8 @@ sed -i -E 's~db_dir: "/crafty_db"~db_dir: "/config/crafty/db"~g' "${config_filep
 # symlink certs to config
 source '/usr/local/bin/utils.sh' && symlink --src-path '/opt/crafty/app/web/certs' --dst-path '/config/crafty/certs' --link-type 'softlink' --log-level 'WARN'
 
+# symlink backups to config
+source '/usr/local/bin/utils.sh' && symlink --src-path '/opt/crafty/backups' --dst-path '/config/crafty/backups' --link-type 'softlink' --log-level 'WARN'
+
 # run crafty in virtualenv
 cd '/opt/crafty' && source './env/bin/activate' && python3 '/opt/crafty/crafty.py' --config "${config_filepath}"
