@@ -54,7 +54,7 @@ aur_packages=""
 # call aur install script (arch user repo)
 source aur.sh
 
-# github packages
+# github
 ####
 
 install_path="/opt/crafty"
@@ -74,8 +74,8 @@ sed -i -E 's~/var/opt/minecraft/server~/config/crafty/servers~g' '/opt/crafty/ap
 # python
 ####
 
-# source in pip.sh to install python modules required for app
-source /usr/local/bin/pip.sh --install-path "${install_path}" --log-level 'WARN'
+# use pip to install requirements as defined in requirements.txt
+pip.sh --install-path "${install_path}" --log-level 'WARN'
 
 # container perms
 ####
