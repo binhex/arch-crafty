@@ -17,7 +17,7 @@ jobs:
         uses: Wandalen/wretry.action@v1.0.11
         with:
           action: docker/login-action@v1
-            with:
+          with: |
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_TOKEN }}
           attempt_limit: 3
